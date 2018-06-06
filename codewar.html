@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	var num = "2335";
+	var result = num.split('');
+
+	var arr = result.map(Number);
+
+
+	var arr1 = arr.reduce((a,b)=>a*b);
+
+
+	function convert(num){
+		let result = (num+'').split('').map(Number);
+		return result.reduce((a,b)=>a*b);
+	}
+
+
+	num = 47;
+
+	for(let i = 0; num > 9; i++){
+		console.log(`i: ${i}, num: ${num}`);
+	}
+
+
+
+</script>
+</body>
+</html>
