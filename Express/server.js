@@ -8,6 +8,7 @@ such as nodemon server.js -e js,hbs */
  
 const express = require('express');
 const hbs = require('hbs');
+const fs = require('fs');
 
 var app = express();
 
@@ -32,11 +33,41 @@ hbs.registerHelper('upper',(e)=>{
 });
 
 /*-------------middleware-----------------*/
-//app.use() means: i wanna everysingle quest come into the server to be run though the function
+//app.use() means: i wanna everysingle request come into the server 
+//to be run though the function
 
-//absolute path to render the file at /public
+//absolute path to render the file at /public 
+//any request from public folder will look automaticly
+
+/*---- app.use(express.static(__dirname + '/public')); ----*/
+
+
+app.use((req,res,next)=>{
+	let now = new Date().toString();
+	let log = `date:${now}, method:${req.method},URL:${req.url} \n`;
+	console.log(now,log);
+	fs.appendFile('server.log',log + "\n",(err)=>{
+		if(err){
+			console.log('unable to create log file');
+		}
+	});
+
+	next();
+});
+
+
+app.use((req,res,next)=>{
+	res.render('down.hbs',{
+		downTitle:'Server is down',
+		downMsg:'Sorry we will back soon'
+	});
+});
+
+
+
 app.use(express.static(__dirname + '/public'));
 
+/*------------handlers------------------------*/
 app.get('/',(req,res)=>{
 	res.render('home.hbs',{
 		pageTitle:'Home Page',
